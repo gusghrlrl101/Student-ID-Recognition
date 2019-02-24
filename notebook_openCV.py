@@ -5,7 +5,7 @@ capture.set(cv2.CAP_PROP_FRAME_WIDTH, 640)  #너비
 capture.set(cv2.CAP_PROP_FRAME_HEIGHT,480)  #높이
 
 #ret, frame = capture.read()    #프레임 받아오기, ret = 상태 저장, frame = 프레임 저장
-frame = cv2.imread('test.jpg')
+frame = cv2.imread('test1.jpg')
 #cv2.imshow("VideoFrame",frame) #윈도우 창에 이미지 띄우기
 gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
 #cv2.imshow("gray",gray)
@@ -13,8 +13,8 @@ blur = cv2.GaussianBlur(gray,(3,3),0)
 #cv2.imshow("Video",blur)
 #cv2.imwrite('blue.jpg',blur)
 
-canny=cv2.Canny(blur,100,200)  # edge 인식
-#cv2.imwrite('canny.jpg',canny)
+canny=cv2.Canny(blur,80,100)  # edge 인식
+cv2.imwrite('canny.jpg',canny)
 cv2.imshow("Canny",canny)
 
 contours,hierarchy = cv2.findContours(canny,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
@@ -42,9 +42,9 @@ for cnt in contours:
 cv2.imshow('RGB',frame)
 trim = frame[miny:maxy,minx:maxx]
 cv2.imwrite('trim.jpg',trim)
-cv2.circle(trim,(150,190),1,(255,0,0),5) #blue
-cv2.circle(trim,(180,300),1,(0,0,255),5) #red
-cv2.rectangle(trim,(150,190),(180,300),(0,255,0),1)
+cv2.circle(trim,(220,190),1,(255,0,0),5) #blue
+cv2.circle(trim,(250,420),1,(0,0,255),5) #red
+cv2.rectangle(trim,(250,420),(220,190),(0,255,0),1)
 img = cv2.imshow('trim',trim)
 
 while (1):
