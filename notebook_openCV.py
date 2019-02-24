@@ -27,7 +27,7 @@ for cnt in contours:
     x,y,w,h = cv2.boundingRect(cnt)
     rect_area = w*h
     if(rect_area>=10000):
-        cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1)
+        #cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1)
         if(minx > x):minx=x
         if(miny > y):miny=y
         if(maxx < x+w):maxx=x+w
@@ -37,13 +37,14 @@ for cnt in contours:
         #rect_area=w*h
         #cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1)
 
-#print("minx:%d miny:%d",minx,miny)
-#print("maxx:%d maxy:%d",maxx,maxy)
 #cv2.circle(frame,(maxx,maxy),1,(0,0,255),5) #red
 #cv2.circle(frame,(minx,miny),1,(255,0,0),5) #blue
 cv2.imshow('RGB',frame)
 trim = frame[miny:maxy,minx:maxx]
 cv2.imwrite('trim.jpg',trim)
+cv2.circle(trim,(150,190),1,(255,0,0),5) #blue
+cv2.circle(trim,(180,300),1,(0,0,255),5) #red
+cv2.rectangle(trim,(150,190),(180,300),(0,255,0),1)
 img = cv2.imshow('trim',trim)
 
 while (1):
