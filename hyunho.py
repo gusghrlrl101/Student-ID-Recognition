@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import cv2
 import numpy as np
 import pytesseract
@@ -7,7 +5,7 @@ import requests
 import json
 
 # Mouse Callback함수
-def draw_circle(event, x,y, flags, param):
+def my_crop(event, x,y, flags, param):
     global x1, y1, x2, y2, drawing, finished
 
     if event == cv2.EVENT_LBUTTONDOWN: #마우스를 누른 상태
@@ -24,15 +22,17 @@ def draw_circle(event, x,y, flags, param):
             y1, y2 = y2, y1
         finished = True
 
-
 drawing = False
 finished = False
+
 
 # 이미지
 img = cv2.imread('test4.jpg')
 
+
+# 이미지 자르기
 cv2.namedWindow('image')
-cv2.setMouseCallback("image", draw_circle)
+cv2.setMouseCallback('image', my_crop)
 
 while True:
 	cv2.imshow('image', img)
@@ -45,11 +45,16 @@ while True:
 cv2.destroyAllWindows()
 img = img[y1:y2, x1:x2]
 
+
 # 흑백화
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
+
+# 학번 받기
 studentID = pytesseract.image_to_string(gray, config='-psm 7 digits')
 
+
+# 납부 확인
 if len(studentID) == 8 and studentID[0:2] == "12":
     URL = "http://www.inhaicesa.com:1666/users/" + studentID + "?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHVkZW50SWQiOiIxMjE1MTYxNiIsIm5hbWUiOiLsoITsiJjtmIQiLCJwYWlkIjoiMSIsInBob25lIjoiMDEwLTkyNzQtNTg5NyIsImF1dGhMZXZlbCI6NSwiZW1haWxBdXRoIjoxLCJwYXlEYXRlIjpudWxsLCJzY29yZSI6MTAsImlhdCI6MTU0NjI0NzkyOH0.va-yk-cmY-QQYw-W9byq5IOzVCY0GiNv_XZREJG2yTg"
     response = requests.get(URL)
